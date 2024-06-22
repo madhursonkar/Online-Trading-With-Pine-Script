@@ -1,0 +1,16 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © sonkarsmadhur
+
+//@version=5
+indicator("Bollinger Bands" , shorttitle = "BB" , timeframe = "" , overlay = true)
+
+MA_Length = input.int(defval = 20 , title = "Length")
+SMA = ta.sma(close,MA_Length)
+
+stddev = input.int(defval = 2 , title = "StdDev")
+upperBand = SMA + stddev*ta.stdev(close,MA_Length)
+lowerBand = SMA - stddev*ta.stdev(close,MA_Length)
+
+plot(upperBand , color = color.red)
+plot(lowerBand , color = color.green)
+plot(SMA , color = color.blue)
