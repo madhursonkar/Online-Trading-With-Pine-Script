@@ -1,0 +1,11 @@
+//@version=5
+strategy("Strategy-2", overlay=true, initial_capital = 3000)
+
+MACD = ta.ema(close,12) - ta.ema(close,26)
+Buy_cond = ta.crossover(MACD,ta.ema(MACD,9))
+
+if (Buy_cond) and (ta.rsi(close,14)<50)
+    stopLoss = low*0.95
+    target = high*1.10
+    strategy.entry("Long" , strategy.long)
+    strategy.exit("Exit","Long",stop = stopLoss,limit = target)
