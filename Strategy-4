@@ -1,0 +1,26 @@
+//@version=5
+strategy("Strategy-4", overlay=true, initial_capital = 3000)
+
+atrFactor = input.float(3, title="ATR Factor")
+atrLength = input.int(10, title="ATR Length")
+
+[supertrendUpper, supertrendLower] = ta.supertrend(atrFactor, atrLength)
+
+isUpTrend = close > supertrendLower
+isDownTrend = close < supertrendUpper
+
+COLOR = color.red
+if isUpTrend
+    COLOR := color.green
+if isDownTrend
+    COLOR := color.red
+
+plot(supertrendUpper, color=COLOR , linewidth = 3)
+
+
+if isUpTrend and ta.crossover(ta.ema(close,9),ta.ema(close,21))
+    strategy.entry("Long",strategy.long)
+if isDownTrend and (ta.rsi(close,14) > 60)
+    strategy.close("Long","Exit")
+
+
