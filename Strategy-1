@@ -1,0 +1,18 @@
+//@version=5
+strategy("Strategy-1", overlay=true , initial_capital = 3000) 
+
+fastEMA = ta.ema(close, 9)
+slowEMA = ta.ema(close, 21)
+RSI = ta.rsi(close,14)
+RSI_MA = ta.ema(RSI,14)
+
+LongCondn = ta.crossover(fastEMA,slowEMA) and (RSI_MA < 50)
+if (LongCondn)
+    strategy.entry("Long", strategy.long)
+
+SellCondn = ta.crossunder(fastEMA,slowEMA) and (RSI_MA > 50)
+if (SellCondn)
+    strategy.close("Long", "Exit")
+
+plot(fastEMA , color = color.red)
+plot(slowEMA , color = color.yellow)
