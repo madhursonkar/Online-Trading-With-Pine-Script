@@ -1,0 +1,14 @@
+//@version=5
+strategy("Strategy-3", overlay=true, initial_capital = 3000)
+
+average = (open+close)/2
+
+if (average > ta.vwap(close))
+    stopLoss = low*0.97
+    target = high*1.13
+    strategy.entry("Long",strategy.long)
+    strategy.exit("Short","Long", stop = stopLoss , limit = target)
+
+
+plot(average, color = #0ba500)
+plot(ta.vwap(close), color = color.yellow)
